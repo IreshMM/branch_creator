@@ -1,0 +1,16 @@
+{
+  "name": "branch-script",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "tsc && node index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@octokit/rest": "^17.9.2",
+    "dotenv": "^8.2.0"
+  }
+}
