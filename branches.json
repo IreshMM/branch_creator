@@ -1,0 +1,10 @@
+{
+    "branches": [
+        {
+            "name": "dev_protected"
+        },
+        {
+            "name": "sit_protected"
+        }
+    ]
+}

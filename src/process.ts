@@ -1,5 +1,6 @@
 import { ReposListForOrgResponseData } from "@octokit/types";
 import { Octokit } from "@octokit/rest";
+import { createBranches } from "./util";
 
 export async function processRepo(
   context: Octokit,
@@ -11,12 +12,14 @@ export async function processRepo(
       repo: repo.name,
       ref: "master",
     })
-    .then((masterCommit) => {
-        console.log('Creating branches....');
-        // TODO
-        // Create the specified branches
+    .then((masterCommitResponse) => {
+        createBranches(
+            context,
+            repo,
+            masterCommitResponse.data
+        )
     })
     .catch((reason) => {
-      console.log(`Repo ${repo.name} is probably empty!\nSo skipping`);
+      console.log(`Repo ${repo.name} is probably empty! skipping`);
     });
 }
