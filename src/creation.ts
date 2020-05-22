@@ -3,7 +3,7 @@ import {
   ReposListForOrgResponseData,
   ReposGetCommitResponseData,
 } from "@octokit/types";
-import fs from "fs";
+import { branches } from "./config/data";
 
 async function createBranchFromCommit(
   context: Octokit,
@@ -52,27 +52,16 @@ export async function createBranches(
   repo: ReposListForOrgResponseData[0],
   commit: ReposGetCommitResponseData
 ) {
-  fs.readFile("branches.json", (err, data) => {
-    if (err) {
-      console.log("Please check if branches.json file exists!");
-      throw err;
-    }
-    const branchData = JSON.parse(data.toString());
-
-    branchData.branches.forEach(async (branch: any) => {
-      if (!(await branchExists(context, repo, branch.name))) {
-        if (await createBranchFromCommit(context, repo, branch.name, commit)) {
-          console.log(
-            `Branch ${branch.name} has been created for Repo ${repo.name}`
-          );
-        } else {
-          console.log(`Couldn't create ${branch.name} for Repo ${repo.name}`);
-        }
+  for (let i = 0; i < branches.length; i++) {
+    const branch = branches[i];
+    if (!(await branchExists(context, repo, branch))) {
+      if (await createBranchFromCommit(context, repo, branch, commit)) {
+        console.log(`Branch ${branch} has been created for Repo ${repo.name}`);
       } else {
-        console.log(
-          `Branch ${branch.name} already exists on Repo ${repo.name}`
-        );
+        console.log(`Couldn't create ${branch} for Repo ${repo.name}`);
       }
-    });
-  });
+    } else {
+      console.log(`Branch ${branch} already exists on Repo ${repo.name}`);
+    }
+  }
 }
