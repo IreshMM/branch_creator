@@ -1,6 +1,6 @@
 import { ReposListForOrgResponseData } from "@octokit/types";
 import { Octokit } from "@octokit/rest";
-import { createBranches } from "./util";
+import { createBranches } from "./creation";
 
 export async function processRepo(
   context: Octokit,
