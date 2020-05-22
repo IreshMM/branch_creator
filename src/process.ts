@@ -18,4 +18,6 @@ export async function processRepo(
   } catch (error) {
     console.log(`Repo ${repo.name} is probably empty! skipping`);
   }
+
+  console.log(`Repo "${repo.name}" processed!\n`);
 }

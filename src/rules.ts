@@ -6,9 +6,10 @@ export async function setProtections(
   context: Octokit,
   repo: ReposListForOrgResponseData[0]
 ) {
-  branches.forEach(async (branch) => {
+  for (let i = 0; i < branches.length; i++) {
+    const branch = branches[i];
     await setProtectionForBranch(context, repo, branch);
-  });
+  }
 }
 
 async function setProtectionForBranch(
@@ -26,7 +27,12 @@ async function setProtectionForBranch(
       ...protection,
     });
 
-    if (response.status == 200) return true;
+    if (response.status == 200) {
+      console.log(
+        `Branch protection for branch ${branch} on Repo ${repo.name} created!`
+      );
+      return true;
+    }
     return false;
   } catch (error) {
     console.log(
