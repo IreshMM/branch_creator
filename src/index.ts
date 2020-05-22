@@ -1,4 +1,5 @@
 import { Octokit } from "@octokit/rest";
+import { processRepo } from "./process";
 require("dotenv").config();
 
 const octokit = new Octokit({
@@ -11,8 +12,7 @@ async function run() {
   const { data: repoList } = await octokit.repos.listForOrg({
     org: process.env.ORGANIZATION!,
   });
-  
-
+  repoList.forEach(processRepo.bind(null, octokit));
 }
 
 run();
