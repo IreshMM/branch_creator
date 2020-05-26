@@ -10,11 +10,12 @@ const octokit = new Octokit({
 });
 
 async function run() {
-  const { data: repoList } = await octokit.repos.listForOrg({
+  const repoList  = await octokit.paginate(octokit.repos.listForOrg, {
     org: process.env.ORGANIZATION!,
   });
   for (let i = 0; i < repoList.length; i++) {
     const repo = repoList[i];
+    console.log(`Processing repo number: ${i + 1}`);
     await processRepo(octokit, repo);
   }
 }
